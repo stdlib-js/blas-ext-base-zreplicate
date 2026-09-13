@@ -41,38 +41,32 @@ limitations under the License.
 
 <!-- /.intro -->
 
+<section class="installation">
 
+## Installation
+
+```bash
+npm install @stdlib/blas-ext-base-zreplicate
+```
+
+Alternatively,
+
+-   To load the package in a website via a `script` tag without installation and bundlers, use the [ES Module][es-module] available on the [`esm`][esm-url] branch (see [README][esm-readme]).
+-   If you are using Deno, visit the [`deno`][deno-url] branch (see [README][deno-readme] for usage intructions).
+-   For use in Observable, or in browser/node environments, use the [Universal Module Definition (UMD)][umd] build available on the [`umd`][umd-url] branch (see [README][umd-readme]).
+
+The [branches.md][branches-url] file summarizes the available branches and displays a diagram illustrating their relationships.
+
+To view installation and usage instructions specific to each branch build, be sure to explicitly navigate to the respective README files on each branch, as linked to above.
+
+</section>
 
 <section class="usage">
 
 ## Usage
 
-To use in Observable,
-
 ```javascript
-zreplicate = require( 'https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zreplicate@umd/browser.js' )
-```
-
-To vendor stdlib functionality and avoid installing dependency trees for Node.js, you can use the UMD server build:
-
-```javascript
-var zreplicate = require( 'path/to/vendor/umd/blas-ext-base-zreplicate/index.js' )
-```
-
-To include the bundle in a webpage,
-
-```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zreplicate@umd/browser.js"></script>
-```
-
-If no recognized module system is present, access bundle contents via the global scope:
-
-```html
-<script type="text/javascript">
-(function () {
-    window.zreplicate;
-})();
-</script>
+var zreplicate = require( '@stdlib/blas-ext-base-zreplicate' );
 ```
 
 #### zreplicate( N, k, x, strideX, out, strideOut )
@@ -181,15 +175,10 @@ zreplicate.ndarray( 1, 2, x, 1, 1, out, 1, 0 );
 
 <!-- eslint no-undef: "error" -->
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-array-discrete-uniform@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/array-complex128@umd/browser.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zreplicate@umd/browser.js"></script>
-<script type="text/javascript">
-(function () {
+```javascript
+var discreteUniform = require( '@stdlib/random-array-discrete-uniform' );
+var Complex128Array = require( '@stdlib/array-complex128' );
+var zreplicate = require( '@stdlib/blas-ext-base-zreplicate' );
 
 var xbuf = discreteUniform( 10, -100, 100, {
     'dtype': 'float64'
@@ -202,11 +191,6 @@ console.log( out );
 
 zreplicate( x.length, 5, x, 1, out, 1 );
 console.log( out );
-
-})();
-</script>
-</body>
-</html>
 ```
 
 </section>
@@ -215,7 +199,141 @@ console.log( out );
 
 <!-- C interface documentation. -->
 
+* * *
 
+<section class="c">
+
+## C APIs
+
+<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
+
+<section class="intro">
+
+</section>
+
+<!-- /.intro -->
+
+<!-- C usage documentation. -->
+
+<section class="usage">
+
+### Usage
+
+```c
+#include "stdlib/blas/ext/base/zreplicate.h"
+```
+
+#### stdlib_strided_zreplicate( N, k, \*X, strideX, \*Out, strideOut )
+
+Replicates each element in a double-precision complex floating-point strided array a specified number of times.
+
+```c
+#include "stdlib/complex/float64/ctor.h"
+
+const double x[] = { 1.0, 2.0, 3.0, 4.0 };
+double out[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+stdlib_strided_zreplicate( 2, 2, (stdlib_complex128_t *)x, 1, (stdlib_complex128_t *)out, 1 );
+```
+
+The function accepts the following arguments:
+
+-   **N**: `[in] CBLAS_INT` number of indexed elements.
+-   **k**: `[in] CBLAS_INT` number of times to replicate each element.
+-   **X**: `[in] stdlib_complex128_t*` input array.
+-   **strideX**: `[in] CBLAS_INT` stride length for `X`.
+-   **Out**: `[out] stdlib_complex128_t*` output array.
+-   **strideOut**: `[in] CBLAS_INT` stride length for `Out`.
+
+```c
+void stdlib_strided_zreplicate( const CBLAS_INT N, const CBLAS_INT k, const stdlib_complex128_t *X, const CBLAS_INT strideX, stdlib_complex128_t *Out, const CBLAS_INT strideOut );
+```
+
+<!-- lint disable maximum-heading-length -->
+
+#### stdlib_strided_zreplicate_ndarray( N, k, \*X, strideX, offsetX, \*Out, strideOut, offsetOut )
+
+<!-- lint enable maximum-heading-length -->
+
+Replicates each element in a double-precision complex floating-point strided array a specified number of times using alternative indexing semantics.
+
+```c
+const double x[] = { 1.0, 2.0, 3.0, 4.0 };
+double out[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+stdlib_strided_zreplicate_ndarray( 2, 2, (stdlib_complex128_t *)x, 1, 0, (stdlib_complex128_t *)out, 1, 0 );
+```
+
+The function accepts the following arguments:
+
+-   **N**: `[in] CBLAS_INT` number of indexed elements.
+-   **k**: `[in] CBLAS_INT` number of times to replicate each element.
+-   **X**: `[in] stdlib_complex128_t*` input array.
+-   **strideX**: `[in] CBLAS_INT` stride length for `X`.
+-   **offsetX**: `[in] CBLAS_INT` starting index for `X`.
+-   **Out**: `[out] stdlib_complex128_t*` output array.
+-   **strideOut**: `[in] CBLAS_INT` stride length for `Out`.
+-   **offsetOut**: `[in] CBLAS_INT` starting index for `Out`.
+
+```c
+void stdlib_strided_zreplicate_ndarray( const CBLAS_INT N, const CBLAS_INT k, const stdlib_complex128_t *X, const CBLAS_INT strideX, const CBLAS_INT offsetX, stdlib_complex128_t *Out, const CBLAS_INT strideOut, const CBLAS_INT offsetOut );
+```
+
+</section>
+
+<!-- /.usage -->
+
+<!-- C API usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
+
+<section class="notes">
+
+</section>
+
+<!-- /.notes -->
+
+<!-- C API usage examples. -->
+
+<section class="examples">
+
+### Examples
+
+```c
+#include "stdlib/blas/ext/base/zreplicate.h"
+#include "stdlib/complex/float64/ctor.h"
+#include <stdio.h>
+
+int main( void ) {
+    // Create strided arrays:
+    const double x[] = { 1.0, 2.0, 3.0, 4.0 };
+    double out[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+    // Specify the number of indexed elements:
+    const int N = 2;
+
+    // Specify the number of times to replicate each element:
+    const int k = 2;
+
+    // Specify strides:
+    const int strideX = 1;
+    const int strideOut = 1;
+
+    // Replicate each element:
+    stdlib_strided_zreplicate( N, k, (stdlib_complex128_t *)x, strideX, (stdlib_complex128_t *)out, strideOut );
+
+    // Print the results:
+    for ( int i = 0; i < 8; i++ ) {
+        printf( "out[ %i ] = %lf\n", i, out[ i ] );
+    }
+}
+```
+
+</section>
+
+<!-- /.examples -->
+
+</section>
+
+<!-- /.c -->
 
 <!-- Section for related `stdlib` packages. Do not manually edit this section, as it is automatically populated. -->
 
@@ -297,7 +415,7 @@ Copyright &copy; 2016-2026. The Stdlib [Authors][stdlib-authors].
 
 [stdlib-license]: https://raw.githubusercontent.com/stdlib-js/blas-ext-base-zreplicate/main/LICENSE
 
-[@stdlib/array/complex128]: https://github.com/stdlib-js/array-complex128/tree/umd
+[@stdlib/array/complex128]: https://github.com/stdlib-js/array-complex128
 
 [mdn-typed-array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
 
